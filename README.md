@@ -6,11 +6,17 @@ Shopping cart plugins using the cavirtex merchant API.
 We are now accepting applications for the following shopping cart plugin submissions:
 
 
+Approved Plugins Available for Download
+=======================================
 
 WordPress e-Commerce Bitcoin Plugin
 -----------------------------------
 WP e-Commerce remains the most popular, most robust e-commerce plugin for WordPress.
+https://github.com/cavirtex/merchants/tree/master/saucal_Bitcoin/Wordpress
 
+
+Plugins Awaiting Submission
+===========================
 
 Magento Bitcoin Plugin
 ----------------------
