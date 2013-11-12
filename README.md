@@ -1,9 +1,9 @@
-Merchants
-=========
+CAVIRTEX Shopping Cart Plugins
+==============================
 
 Shopping cart plugins using the cavirtex merchant API.
 
-We are now accepting applications for the following shopping cart plugin submissions:
+We are now accepting applications for the following shopping cart plugins:
 
 
 Approved Plugins Available for Download
