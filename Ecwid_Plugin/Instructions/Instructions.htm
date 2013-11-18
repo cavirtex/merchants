@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Instructions for setting up bitcoins on Ecwid</title>
+    <style type="text/css">
+        .style1
+        {
+            width: 934px;
+            height: 608px;
+        }
+        .style2
+        {
+            width: 937px;
+            height: 608px;
+        }
+        .style3
+        {
+            width: 920px;
+            height: 333px;
+        }
+        .style4
+        {
+            width: 778px;
+            height: 889px;
+        }
+        .style5
+        {
+            width: 653px;
+            height: 144px;
+        }
+        .style6
+        {
+            width: 766px;
+            height: 362px;
+        }
+        .style7
+        {
+            width: 773px;
+            height: 361px;
+        }
+        .style8
+        {
+            width: 948px;
+            height: 158px;
+        }
+        .style9
+        {
+            width: 936px;
+            height: 356px;
+        }
+        .style10
+        {
+            width: 988px;
+            height: 567px;
+        }
+        .style11
+        {
+            width: 995px;
+            height: 575px;
+        }
+        .style12
+        {
+            width: 1006px;
+            height: 504px;
+        }
+        .style13
+        {
+            color: #00CC00;
+        }
+        .style14
+        {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <p>
+        <strong>Step 1)</strong> After logging in to your ecwid store, click on the &quot;<em>System 
+        Settings</em>&quot; tab.</p>
+    <img class="style1" 
+            src="Step%201.png" /> <p>
+        <strong>Step 2)</strong> Beside the &quot;<em>Credit Card</em>&quot; payment method, click 
+        on &quot;<em>[Choose payment processor]</em>&quot;.</p> <img 
+            class="style2" 
+            src="Step%202.png" /> <p>
+        <strong>Step 3)</strong> Click the drop down arrow beside &quot;<em>Credit Card</em>&quot;, 
+        then find &quot;<em>Credit Card: Authorize.NET SIM</em>&quot; in the list and select it.</p> <img 
+            class="style3" 
+            src="Step%203.png" /> <p>
+        <strong>Step 4)</strong> When the Account Details page appears, enter some 
+        random characters (letters and numbers) for &quot;<em>API Login Id</em>&quot;, &quot;<em>Transaction 
+        Key</em>&quot;, and &quot;<em>MD5 Hash Value</em>&quot;. Keep &quot;<em>Authorize and Capture</em>&quot; 
+        as the <em>Transaction Type</em>.</p>
+    <p>Open up the &quot;<em>config.php</em>&quot; file and change <strong><em>$x_login</em></strong>&#39;s 
+        value to the <em>API Login Id</em>, and <strong><em>$hash_value</em></strong>&#39;s 
+        value to the <em>MD5 Hash Value</em> that you selected. Save the file.</p>
+    <p>Finally, click the &quot;<em>Change</em>&quot; button below &quot;<em>Endpoint URL</em>&quot;.</p> <img 
+            class="style4" 
+            src="Step%204.png" /> <p>
+        Change the &quot;<em>Endpoint URL</em>&quot; value to point to the domain and path to your 
+        &quot;<em>cavirtex_gateway.php</em>&quot; file. Click &quot;<em>Save</em>&quot; when you are done.</p> <img 
+            class="style5" 
+            src="Step%205.png" /> <p>
+        Now, click on &quot;<em>Credit card</em>&quot; under the &quot;<em>Payment Method</em>&quot; 
+        heading.</p> <img 
+            class="style6" 
+            src="Step%206.png" /> <p>
+        Change the first text box&#39;s contents to &quot;Bitcoin Payments&quot; and the second text 
+        box&#39;s contents to &quot;No Credit Card Needed&quot;. Click &quot;<em>Apply</em>&quot;.</p> <img 
+            class="style7" 
+            src="Step%207.png" /> <p>
+        Click the &quot;<em>[ Enable ]</em>&quot; link for &quot;<em>Credit card</em>&quot; in the right 
+        most column.</p> <img 
+            class="style8" 
+            src="Step%208.png" /> <p>
+        Now, click the checkmark beside &quot;<em>Save</em>&quot; (or press Ctrl-S).</p> <img 
+            class="style9" 
+            src="Step%209.png" /> <p>
+        Next, click the &quot;<em>Design</em>&quot; tab, then when you&#39;re on the &quot;<em>Design 
+        Settings</em>&quot; page click on the &quot;<em>Standard</em>&quot; theme and finally click the 
+        &quot;<em>Duplicate</em>&quot; button.</p> <img 
+            class="style10" 
+            src="Step%2010.png" /> <p>
+        Change the &quot;<em>Theme Name</em>&quot; to &quot;Bitcoins Accepted Here&quot;, then add the 
+        following custom CSS:</p>
+    <p><span class="style13">div.ecwid-paymentAuthorizeNet.ecwid-paymentAuthorizeNet {</span><br 
+            class="style13" />
+        <span class="style13">&nbsp; background-image: 
+        url(&#39;https://en.bitcoin.it/w/images/en/7/74/BC_Rnd_64px.png&#39;);</span><br 
+            class="style13" />
+        <span class="style13">&nbsp; background-repeat:no-repeat;</span><br 
+            class="style13" />
+        <span class="style13">&nbsp; margin-left:20px;</span><br class="style13" />
+        <span class="style13">&nbsp; height:64px;</span><br class="style13" />
+        <span class="style13">&nbsp; width:168px;</span><br class="style13" />
+        <span class="style13">}</span><br class="style13" />
+        <br class="style13" />
+        <span class="style13">div.ecwid-paymentAuthorizeNet img{</span><br 
+            class="style13" />
+        <span class="style13">&nbsp; display: none;</span><br class="style13" />
+        <span class="style13">}</span></p>
+    <p>You may want to download the bitcoin logo from 
+        <a href="https://en.bitcoin.it/w/images/en/7/74/BC_Rnd_64px.png">
+        https://en.bitcoin.it/w/images/en/7/74/BC_Rnd_64px.png</a> and save it to your 
+        hosting space, then change the url(&#39; .... &#39;); accordingly.</p> <img 
+            class="style11" 
+            src="Step%2011.png" /> <p>
+        Click on &quot;<em>Activate</em>&quot; then click the checkbox beside &quot;<em>Save</em>&quot;.</p> <img 
+            class="style12" 
+            src="Step%2012.png" /> <p> 
+        That concludes the setup that needs to be performed on the Ecwid site.&nbsp; </p>
+    <p> Next is configuring the config.php file.</p>
+    <p> The <strong><em>$CaVirtEx_MerchantKey</em></strong> and <strong><em>
+        $CaVirtEx_MerchantSecretKey</em></strong> values should be set to whatever is 
+        displayed on <a href="https://www.cavirtex.com/merchant_information">
+        https://www.cavirtex.com/merchant_information</a> .</p>
+    <p> <strong><em>$x_login</em></strong> and <strong><em>$hash_value</em></strong> 
+        should have been set earlier.</p>
+    <p> <strong><em>$logDir</em></strong> can be changed to a secure directory on the 
+        web server that PHP can write to.</p>
+    <p> <strong><em>$payment_alert </em></strong>should be changed to your business&#39; 
+        e-mail address.</p>
+    <p> <strong><em>$return_link_url </em></strong>should be changed to point to the &quot;<em>postpayment.php</em>&quot; 
+        file on your domain. E.g. &#39;<a href="http://YOURDOMAIN.ca/Ecwid/postpayment.php">http://YOURDOMAIN.ca/Ecwid/postpayment.php</a>&#39;; </p>
+    <p> The <strong><em>$proxyXXXX </em></strong>variables should be changed only if you 
+        need to use a proxy to access the CaVirtEx website.</p>
+    <p> Save the file. Upload the files to your domain.</p>
+    <p class="style14"> <strong>Configuration should now be complete!</strong></p>
+
+</body>
+</html>
