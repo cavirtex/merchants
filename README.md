@@ -22,6 +22,10 @@ WordPress e-Commerce Bitcoin Plugin
 WP e-Commerce remains the most popular, most robust e-commerce plugin for WordPress.
 https://github.com/cavirtex/merchants/tree/master/saucal_Bitcoin/Wordpress
 
+Ecwid Bitcoin Plugin
+--------------------
+Ecwid offers the performance and flexibility you need, with none of the hassles you don't.
+https://github.com/cavirtex/merchants/tree/master/Ecwid_Plugin
 
 Plugins Awaiting Submission ($500 Bounty Available)
 ===================================================
@@ -39,11 +43,6 @@ WHMCS is an all-in-one client management, billing & support solution for online 
 WooCommerce Bitcoin Plugin
 --------------------------
 WooCommerce extends your WordPress website with e-commerce facilities.
-
-
-Ecwid Bitcoin Plugin
---------------------
-Ecwid offers the performance and flexibility you need, with none of the hassles you don't.
 
 
 OpenCart Bitcoin Plugin
