@@ -1,0 +1,446 @@
+<?php
+
+/**
+ * @file
+ * Implements Virtex merchant BitCoin integration
+ *   method for use with Drupal Commerce.
+ */
+ 
+define('VIRTEX_POST_URL', 'https://www.cavirtex.com/merchant_purchase/');
+define('VIRTEX_INVOICE_URL', 'https://www.cavirtex.com/merchant_invoice');
+
+/**
+ * Implements hook_menu().
+ */
+function commerce_virtex_menu() {
+  $items = array();
+
+  $items['checkout/%commerce_order/commerce_virtex/payment/return'] = array(
+    'title' => 'Order complete using Virtex',
+    'page callback' => 'commerce_virtex_complete',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  // This is where user goes after clicking "Go Back" on payment page.
+  $items['checkout/%commerce_order/commerce_virtex/cancel_payment'] = array(
+    'title' => 'Checkout cancel payment',
+    'page callback' => 'commerce_virtex_cancel_payment',
+    'page arguments' => array(1),
+    'access callback' => 'commerce_checkout_access',
+    'access arguments' => array(1),
+    'type' => MENU_CALLBACK,
+  );
+  
+  // Define an additional IPN path that is payment method / instance specific.
+  $items['commerce_virtex/ipn'] = array(
+    'page callback' => 'commerce_virtex_process_ipn',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_commerce_payment_method_info().
+ */
+function commerce_virtex_commerce_payment_method_info() {
+  $payment_methods = array();
+
+  $payment_methods['commerce_virtex'] = array(
+    'base' => 'commerce_virtex',
+    'title' => t('Checkout using Virtex'),
+    'short_title' => t('Virtex'),
+    'description' => t('Checkout with Virtex'),
+    'display_title' => '<div class="payment-label">' . t('Checkout with Virtex') . '</div>',
+    'active' => TRUE,
+    'terminal' => FALSE,
+    'offsite' => TRUE,
+    'offsite_autoredirect' => FALSE,
+  );
+
+  return $payment_methods;
+}
+
+/**
+ * Payment method callback: settings form.
+ */
+function commerce_virtex_settings_form($settings = NULL) {
+  $form = array();
+
+  $settings = (array) $settings + array(
+    'merchant_key' => '',
+    'secret_key' => '',
+    'checkout_button' => t('Complete Order'),
+  );
+
+  $form['merchant_key'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Merchant key'),
+    '#description' => t('Merchant key can be obtained from your Information page on Virtex, or from the response of a merchant purchase request.'),
+    '#default_value' => $settings['merchant_key'],
+    '#maxlength' => 30,
+  );
+
+  $form['secret_key'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Secret key'),
+    '#description' => t('Secret key can be obtained from your Information page.'),
+    '#default_value' => $settings['secret_key'],
+    '#maxlength' => 20,
+  );
+
+  $form['checkout_button'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Payment Submit Button Text'),
+    '#description' => t('Specify the text for the payment form submit button.'),
+    '#default_value' => $settings['checkout_button'],
+  );
+  
+  return $form;
+}
+
+/**
+ * Payment method callback.
+ */
+function commerce_virtex_redirect_form($form, &$form_state, $order, $payment_method) {
+  // Return an error if the enabling action's settings haven't been configured.
+  if (empty($payment_method['settings']['merchant_key']) || empty($payment_method['settings']['secret_key'])) {
+    drupal_set_message(t('This payment method is not configured for use. No account credentials have been specified.'), 'error');
+    return array();
+  }
+
+  // Set the page title to be more explanatory.
+  drupal_set_title('Billing Information');
+
+  // Wrap the order for simplicity.
+  $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
+
+  // Prepare the billing address for use in the request.
+  $billing_address = $order_wrapper->commerce_customer_billing->commerce_customer_address->value();
+  
+  // User's personal information.
+  $form['customer_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Name'),
+    '#default_value' => $billing_address['name_line'],
+    '#maxlength' => 128,
+  );
+  $form['email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Email'),
+    '#default_value' => $order->mail,
+    '#maxlength' => 255,
+  );
+  $form['address'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Address'),
+    '#default_value' => $billing_address['thoroughfare'],
+    '#maxlength' => 128,
+  );
+  $form['address2'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Address 2'),
+    '#title_display' => 'invisible',
+    '#default_value' => $billing_address['premise'],
+    '#maxlength' => 128,
+  );
+  $form['city'] = array(
+    '#type' => 'textfield',
+    '#title' => t('City'),
+    '#default_value' => $billing_address['locality'],
+    '#maxlength' => 64,
+  );
+  $form['province'] = array(
+    '#type' => 'select',
+    '#options' => array(
+      'AB' => t('Alberta'),
+      'BC' => t('British Columbia'),
+      'MB' => t('Manitoba'),
+      'NB' => t('New Brunswick'),
+      'NL' => t('Newfoundland'),
+      'NT' => t('Northwest Territories'),
+      'NS' => t('Nova Scotia'),
+      'NU' => t('Nunavut'),
+      'ON' => t('Ontario'),
+      'PE' => t('Prince Edward Island'),
+      'QC' => t('Quebec'),
+      'SK' => t('Saskatchewan'),
+      'YT' => t('Yukon Territory'),
+    ),
+    '#title' => t('Province'),
+    '#default_value' => $billing_address['administrative_area'],
+    '#description' => t('Required.'),
+    '#maxlength' => 3,
+  );
+  $form['postal'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Postal Code'),
+    '#default_value' => str_replace(' ', '', $billing_address['postal_code']),
+    '#maxlength' => 6,
+  );
+  $form['country'] = array(
+    '#type' => 'select',
+    '#multiple' => FALSE,
+    '#title' => t('Country'),
+    '#default_value' => $billing_address['country'],
+    '#options' => country_get_list(),
+    '#attributes' => array('class' => array('country')),
+  );
+  
+  // Add submit button.
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => empty($payment_method['settings']['checkout_button']) ? t('Submit Order') : check_plain($payment_method['settings']['checkout_button']),
+    '#attributes' => array(
+      'class' => array('complete_virtex_payment'),
+    ),
+    '#submit' => array('commerce_virtex_redirect_form_submit'),
+  );
+
+  // Add back button.
+  $form['back-button'] = array(
+    '#markup' => l(t("Go Back"), "checkout/$order->order_id/commerce_virtex/cancel_payment",
+      array(
+        'attributes' => array(
+          'class' => array('button grey wysiwyg-button'),
+          'id' => 'cancel-virtex-payment',
+        ),
+      )
+    ),
+  );
+
+  return $form;
+}
+
+/**
+ * Implements hook_FORM_submit().
+ *  Validate user's posted information, create invoice at Virtex, and forward
+ *  the user there.
+ */
+function commerce_virtex_redirect_form_submit($form, &$form_state) {
+  global $base_url;
+  
+  // Retrieve order and payment method instance from form state.
+  $form_values = $form_state['values'];
+  $order = $form_state['order'];
+  $payment_method_instance_id = $order->data['payment_method'];
+  $payment_method = commerce_payment_method_instance_load($payment_method_instance_id);
+  $settings = $payment_method['settings'];
+  $merchant_key = $settings['merchant_key'];
+  $secret_key = $settings['secret_key'];
+  
+  // Wrap the order for simplicity.
+  $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
+
+  // Useful order data.
+  $line_items = $order_wrapper->commerce_line_items;
+  $quantity = commerce_line_items_quantity($line_items, commerce_product_line_item_types());
+  $total = commerce_line_items_total($line_items);
+  $total = $total['amount'] / 100;
+  $title = format_plural($quantity, '1 item', '@count items');
+  
+  // Create post_data object
+  $post_data = array(
+    'name' => $title,
+    'code' => $order->order_id,
+    'quantity' => $quantity,
+    'price' => $total,
+    'shipping_required' => 0,
+    'email' => $form_values['email'],
+    'customer_name' => $form_values['customer_name'],
+    'address' => $form_values['address'],
+    'address2' => $form_values['address2'],
+    'city' => $form_values['city'],
+    'province' => $form_values['province'],
+    'postal' => $form_values['postal'],
+    'country' => $form_values['country'],
+    'return_url' => $base_url . '/checkout/' . $order->order_id . '/commerce_virtex/payment/return',
+    'cancel_url' => $base_url . '/checkout/' . $order->order_id . '/commerce_virtex/cancel_payment',
+  );
+  
+  // Sign the data for validation in future.
+  $pos = array('posData' => $post_data);
+  $pos['hash'] = crypt(serialize($post_data), $merchant_key);
+  $post_data['posData'] = json_encode($pos);
+ 
+  // Create invoice
+  $invoice = _commerce_virtex_send_request(VIRTEX_POST_URL, $post_data, 'POST', TRUE, $merchant_key);
+  
+  // Deal with errors
+  if (is_string($invoice)) {
+    drupal_set_message(t('The request failed at the payment process. Please try again in a few minutes.'), 'error');
+    watchdog('virtex', $invoice);
+    commerce_checkout_router($order);
+    return;
+  }
+  else if (isset($invoice['Status']) && ($invoice['Status'] == 'error')) {
+    foreach ($invoice['ErrorList'] as $error) {
+      foreach ($error as $id => $msg) {
+        drupal_set_message($msg[0]);
+      }
+    }
+    commerce_checkout_router($order);
+    return;
+  }
+  
+  // Store generated order key on the order for future lookup.
+  // Future enhancement: store these in a custom table instead.
+  variable_set('virtex_order_' . $invoice['order_key'], $order->order_id);
+
+  // Forward user to virtex
+  $url = VIRTEX_INVOICE_URL . '?merchant_key=' . $merchant_key . '&order_key=' . $invoice['order_key'];
+  drupal_goto($url);
+}
+
+
+/**
+ * Process incoming IPN POSTs from Virtex.
+ *  Important Note: BitCoin transactions can take time to complete. Virtex may
+ *  post back to this url several times for a given order, to update the
+ *  current status of the transaction. The order is only actually marked as
+ *  complete when the transaction status is 'complete'. The interim status
+ *  updates are primarily for alerting the user. It might make sense for the
+ *  Drupal Commerce 'Order Processing' page to be the primary place that users
+ *  are directed to after returning to this site, and for the messaging there
+ *  to be updated in a way that is informative to the user.
+ */
+function commerce_virtex_process_ipn() {
+  // Load payment method.
+  $payment_method_instance_id = 'commerce_virtex|commerce_payment_commerce_virtex';
+  $payment_method_instance = commerce_payment_method_instance_load($payment_method_instance_id);
+  $merchant_key = $payment_method_instance['settings']['merchant_key'];
+  
+  // Get contents of data that Virtex has sent.
+  $post = file_get_contents("php://input");
+
+  // Detect empty post-back.
+  if (!$post) {
+    watchdog('virtex', 'IPN was called with no data');
+    return;
+  }
+  
+  // Convert post-back data into JSON.
+  $json = json_decode($post, true);
+  if (is_string($json)) {
+    watchdog('virtex', 'IPN was called with bad data: ' . $json);
+    return;
+  }
+  
+  // Validate posData.
+  if (!array_key_exists('posData', $json)) {
+    watchdog('virtex', 'IPN was called with missing postData field: ' . $json);
+    return;
+  }
+  
+  // decode posData
+  $posData = json_decode($json['posData'], true);
+  if ($posData['hash'] != crypt(serialize($posData['posData']), $merchant_key)) {
+    watchdog('virtex', 'IPN Authentication failed (bad hash)');
+    return;
+  }
+  $json['posData'] = $posData['posData'];
+  $response = $json;
+   
+  if (isset($response['error'])) {
+    watchdog('virtex', 'IPN Error: ' . print_r($response['error'], true));
+    return;
+  }
+ 
+  // Future enhancement: provide email messaging to the customer as their 
+  // BTC transaction progresses.
+  if ($response['status'] == 'complete') {
+  
+    // Lookup order.
+    $order_id = variable_set('virtex_order_' . $response['order_key'], FALSE);
+    $order = commerce_order_load($order_id);
+    
+    // Wrap the order for simplicity.
+    $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
+
+    // Useful order data.
+    $line_items = $order_wrapper->commerce_line_items;
+    $total = commerce_line_items_total($line_items);
+ 
+    // Create order transaction. Note that we are storing the original CAD
+    // amount, rather than the BTC amount, because otherwise Commerce will
+    // not consider the order completed.
+    $transaction = commerce_payment_transaction_new('commerce_virtex', $order->order_id);
+    $transaction->instance_id = $payment_method_instance_id;
+    $transaction->remote_id = $response['invoice_number'];
+    $transaction->amount = $total;
+    $transaction->currency_code = 'CAD';
+    $transaction->payload[REQUEST_TIME] = $time();
+    $transaction->remote_status = $response['status'];
+    $transaction->status = COMMERCE_PAYMENT_STATUS_SUCCESS;
+    $transaction->message = t('The payment has completed. BTC Amount was B' . $response['btc_received']);
+    // Save the transaction information.
+    commerce_payment_transaction_save($transaction);      
+  }
+    
+  return;
+}
+    
+/**
+ * Return callback.
+ *  Redirects the user to the most appropriate page for the order (likely
+ *  the complete or processing pages). Note that the order is marked complete
+ *  asynchronously by the IPN callback.
+ *
+ * @param stdClass $order
+ *   Commerce order object
+ */
+function commerce_virtex_complete($order) {
+  drupal_goto(commerce_checkout_order_uri($order));
+}
+
+/**
+ * Page callback for "Go Back" button on payment page.
+ *
+ * @param stdClass $order
+ *   Commerce order object
+ */
+function commerce_virtex_cancel_payment($order) {
+  $order = commerce_order_status_update($order, 'checkout_review');
+  drupal_goto(commerce_checkout_order_uri($order));
+}
+
+/**
+ * Utility function to send requests to Virtex.
+ */
+function _commerce_virtex_send_request($url, $post_data, $method = 'POST', $is_json = TRUE, $api_key = FALSE) {
+  // Set return format to be JSON-encoded.
+  if ($is_json) {
+    $post_data['format'] = 'json';
+  }
+  
+  // Set API Key (Merchant Key)
+  if ($api_key) {
+    $post_data['apiKey'] = $api_key;
+  }
+  
+  // Options for the request.
+  $options = array(
+    'method' => $method,
+    'data' => drupal_http_build_query($post_data),
+  );
+
+  // Send request to Virtex.
+  $url .= $api_key;
+  $response = drupal_http_request($url, $options);
+  
+  // Handle error conditions.
+  if ($response === FALSE) {
+    return false;
+  }
+
+  // Decode response.
+  $return_values = $response->data;
+  $decoded_data = json_decode($return_values, TRUE);
+
+  // return response.
+  return $decoded_data;
+}
