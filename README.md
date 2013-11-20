@@ -27,6 +27,11 @@ Ecwid Bitcoin Plugin
 Ecwid offers the performance and flexibility you need, with none of the hassles you don't.
 https://github.com/cavirtex/merchants/tree/master/Ecwid_Plugin
 
+Drupal 7 Drupal Commerce Plugin
+-------------------------------
+Drupal Commerce is used to build eCommerce websites and applications of all sizes.
+https://github.com/cavirtex/merchants/tree/master/commerce_virtex
+
 Plugins Awaiting Submission ($500 Bounty Available)
 ===================================================
 
