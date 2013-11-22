@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Installation Instructions</title>
+    <style type="text/css">
+        .style1
+        {
+            width: 1064px;
+            height: 314px;
+        }
+        .style2
+        {
+            width: 1023px;
+            height: 616px;
+        }
+        .style3
+        {
+            width: 831px;
+            height: 315px;
+        }
+    </style>
+</head>
+<body>
+
+    <p>
+        <strong>Step 1)</strong> Connect to your domain via FTP or similar file transfer 
+        method.</p>
+    <p>
+        <strong>Step 2)</strong> Copy the file &quot;<em>cavirtex_callback.php</em>&quot; in &quot;<em>Files 
+        to upload</em>&quot; to the root of your zencart site (e.g. to <em>
+        /var/www/html/zencart/cavirtex_callback.php</em> ).</p>
+    <p>
+        <strong>Step 3)</strong> Copy the file &quot;<em>cavirtex.php</em>&quot; in &quot;<em>Files to 
+        upload/languages</em>&quot; to the zencart payment module languages folder. </p>
+    <p>
+        (e.g. to &quot; <em>
+        /var/www/html/zencart/includes/languages/english/modules/payment/cavirtex.php
+        </em>&quot;).</p>
+    <p>
+        <strong>Step 4)</strong> Copy the file &quot;<em>cavirtex.php</em>&quot; in &quot;<em>Files to 
+        upload/modules</em>&quot; to the zencart payment modules folder. </p>
+    <p>
+        (e.g. to &quot; <em>/var/www/html/zencart/includes/modules/payment/cavirtex.php </em>
+        &quot;).</p>
+    <p>
+        <strong>Step 5)</strong> Log in to the admin section of your zencart store.</p>
+    <p>
+        <img class="style1" src="Step%205-Modules%20Install.png" /></p>
+    <p>
+        Go to &quot;<em>Modules</em>&quot; and select &quot;<em>Payment</em>&quot;. Then, locate &quot;<em>Payment 
+        with Bitcoins</em>&quot; in the list of modules and select it. Finally, click &quot;<em>Install</em>&quot;.</p>
+    <p>
+        <strong>Step 6)</strong> Enter appropriate variable details.</p>
+    <p>
+        <img class="style2" src="Step%206-Enter%20Variables.png" /></p>
+    <p>
+        The <em>CaVirtEx Merchant Key</em> and <em>CaVirtEx Merchant Secret Key</em> can 
+        be found on the merchant section of the cavirtex.com website.</p>
+    <p>
+        The first <em>Set Order Status</em> should be set to what unpaid orders should 
+        be (e.g. pending).</p>
+    <p>
+        The second <em>Set Order Status</em> should be set to what paid orders should be 
+        (e.g. processing).</p>
+    <p>
+        Click &quot;<em>update</em>&quot; when you are done configuring the module.</p>
+    
+    <p>
+        <strong>Step 7)</strong> On the CaVirtEx site, click &quot;<em>Merchant Profile</em>&quot;. 
+        Find <em>IPN URL</em>, and enter the URL for your ZenCart&#39;s <em>
+        cavirtex_callback.php </em>file. Click &quot;<em>Update</em>&quot; when done.</p>
+    <p>
+        e.g. <em><a href="http://aaronk.ca/zencart/cavirtex_callback.php">http://aaronk.ca/zencart/cavirtex_callback.php</a></em></p>
+    <p>
+        <img class="style3" src="Step%207-IPN%20URL.png" /></p>
+    <p style="font-weight: 700">
+        You can now accept payments with bitcoins!</p>
+</body>
+</html>
