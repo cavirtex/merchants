@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Installation Instructions</title>
+    <style type="text/css">
+        .style4
+        {
+            width: 206px;
+            height: 423px;
+        }
+        .style5
+        {
+            width: 1036px;
+            height: 149px;
+        }
+        .style6
+        {
+            width: 1038px;
+            height: 215px;
+        }
+        .style7
+        {
+            width: 1047px;
+            height: 257px;
+        }
+        .style8
+        {
+            width: 1034px;
+            height: 607px;
+        }
+        .style9
+        {
+            width: 801px;
+            height: 323px;
+        }
+    </style>
+</head>
+<body>
+
+    <p>
+        <strong>Step 1)</strong> Connect to your domain via FTP or similar file transfer 
+        method.</p>
+    <p>
+        <strong>Step 2)</strong> Copy the file &quot;<em>cavirtex_callback.php</em>&quot; in &quot;<em>Files 
+        to upload</em>&quot; to the root of your osCommerce site (e.g. to <em>
+        /var/www/html/oscom/cavirtex_callback.php</em> ).</p>
+    <p>
+        <strong>Step 3)</strong> Copy the file &quot;<em>cavirtex.php</em>&quot; in &quot;<em>Files to 
+        upload/languages</em>&quot; to the osCommerce payment module languages folder. </p>
+    <p>
+        (e.g. to &quot; <em>
+        /var/www/html/oscom/includes/languages/english/modules/payment/cavirtex.php
+        </em>&quot;).</p>
+    <p>
+        <strong>Step 4)</strong> Copy the file &quot;<em>cavirtex.php</em>&quot; in &quot;<em>Files to 
+        upload/modules</em>&quot; to the osCommerce payment modules folder. </p>
+    <p>
+        (e.g. to &quot; <em>/var/www/html/oscom/includes/modules/payment/cavirtex.php </em>
+        &quot;).</p>
+    <p>
+        <strong>Step 5)</strong> Log in to the admin section of your osCommerce store.</p>
+    <p>
+        <img class="style4" src="img/Step%205-Modules%20Payment.png" /></p>
+    <p>
+        Go to &quot;<em>Modules</em>&quot; and select &quot;<em>Payment</em>&quot;. </p>
+    <p>
+        <strong>Step 6)</strong> Click on the &quot;<em>Install Module</em>&quot; button.</p>
+    <p>
+        <img class="style5" src="img/Step%206-Modules%20Install.png" /></p>
+    <p>
+        <strong>Step 7)</strong> Locate &quot;<em>Payment 
+        with Bitcoins</em>&quot; in the list of modules and select it. Finally, click &quot;<em>Install 
+        Module</em>&quot;.</p>
+    <p>
+        <img class="style6" src="img/Step%207-Install%20this%20module.png" /></p>
+    <p>
+        <strong>Step 8)</strong> With &quot;<em>Payment with Bitcoins</em>&quot; still selected, 
+        click the &quot;<em>Edit</em>&quot; button.</p>
+    <p>
+        <img class="style7" src="img/Step%208-Edit%20Settings.png" /></p>
+    <p>
+        <strong>Step 9)</strong> Enter appropriate variable details.</p>
+    <p>
+        <img class="style8" src="img/Step%209-Save%20Settings.png" /></p>
+    <p>
+        The <em>CaVirtEx Merchant Key</em> and <em>CaVirtEx Merchant Secret Key</em> can 
+        be found on the merchant section of the cavirtex.com website.</p>
+    <p>
+        The<em> Set Order Status (unpaid)</em> option should be set to what unpaid orders should 
+        be changed to (e.g. pending).</p>
+    <p>
+        The <em>Set Order Status (paid)</em> option should be set to what paid orders should be 
+        changed to (e.g. processing).</p>
+    <p>
+        Click &quot;<em>save</em>&quot; when you are done configuring the module.</p>
+    
+    <p>
+        <strong>Step 10)</strong> On the CaVirtEx site, click &quot;<em>Merchant Profile</em>&quot;. 
+        Find <em>IPN URL</em>, and enter the URL for your osCommerce&#39;s <em>
+        cavirtex_callback.php </em>file. Click &quot;<em>Update</em>&quot; when done.</p>
+    <p>
+        e.g. <em><a href="http://aaronk.ca/oscom/cavirtex_callback.php">http://aaronk.ca/oscom/cavirtex_callback.php</a></em></p>
+    <p>
+        <img class="style9" src="img/Step%2010-IPN%20URL.png" /></p>
+    <p style="font-weight: 700">
+        You can now accept payments with bitcoins!</p>
+</body>
+</html>
