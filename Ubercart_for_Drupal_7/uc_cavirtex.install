@@ -1,0 +1,54 @@
+<?php
+
+function uc_cavirtex_schema() {
+  $schema['uc_payment_cavirtex'] = array(
+    'description' => t('Transaction table'),
+    'fields' => array(
+      'txid' => array(
+        'description' => t('Transaction ID'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+	  'order_id' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'default' => 0,
+        'description' => 'Order ID',
+      ),
+      'amount' => array(
+        'type' => 'numeric',
+        'precision' => 6,
+        'scale' => 2,
+        'not null' => TRUE,
+        'default' => 0.00,
+      ),
+	  'payee' => array(
+        'type' => 'varchar',
+        'length' => 15,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'VirtEx account of payee',
+      ),
+      'payer' => array(
+        'type' => 'varchar',
+        'length' => 15,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'VirtEx account of payer',
+      ),
+      'description' => array(
+        'type' => 'text',
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('txid'),
+  );
+  return $schema;
+}
+function uc_cavirtex_uninstall() {
+  db_query("DELETE FROM {variable} WHERE name LIKE 'uc_cavirtex_%%'");
+}
+
