@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<layout version="0.1.0">
+	<virtex_payment_pay>
+		<reference name="root">
+			<action method="setTemplate">
+				<template>page/2columns-right.phtml</template>
+			</action>
+		</reference>
+		<reference name="content">
+			<block type="core/template" name="virtex_success" template="virtex/success.phtml"></block>
+		</reference>
+	</virtex_payment_pay>
+</layout>

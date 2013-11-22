@@ -1,0 +1,10 @@
+<?php $btc_data = Mage::getSingleton('core/session')->getBitcoinData(); ?>
+<div>
+	<p>To complete your order please send <strong><?php echo $btc_data["btc_total"] ?> BTC
+(<?php echo $btc_data["cad_total"] ?> CAD)</strong> to
+		the following Bitcoin Address:</p>
+	<p><strong><?php echo $btc_data["btc_address"] ?></strong></p>
+	<p>Note: The current Bitcoin exchange rate is <strong><?php echo $btc_data["exchange_rate"] ?> CAD/BTC</strong>.
+		As Bitcoin exchange rates are subject to heavy fluctuations, your order will be valid only for the next
+		15 minutes.</p>
+</div>
