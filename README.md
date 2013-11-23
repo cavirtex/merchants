@@ -32,6 +32,22 @@ Drupal 7 Drupal Commerce Plugin
 Drupal Commerce is used to build eCommerce websites and applications of all sizes.
 https://github.com/cavirtex/merchants/tree/master/commerce_virtex
 
+Zen Cart Bitcoin Plugin
+-----------------------
+Zen Cart truly is the art of e-commerce; free, user-friendly, open source shopping cart software.
+https://github.com/cavirtex/merchants/tree/master/ZenCart
+
+VirtueMart Bitcoin Plugin
+-------------------------
+VirtueMart is an Open Source E-Commerce solution that powers large online shops.
+https://github.com/cavirtex/merchants/tree/master/VirtueMart
+
+osCommerce Bitcoin Plugin
+-------------------------
+osCommerce has over 7,000 free Add-Ons and 12 Years of strong experince.
+https://github.com/cavirtex/merchants/tree/master/osCommerce
+
+
 Plugins Awaiting Submission ($500 Bounty Available)
 ===================================================
 
@@ -55,16 +71,6 @@ OpenCart Bitcoin Plugin
 Opencart is a powerful open-source shopping cart platform for online merchants.
 
 
-Zen Cart Bitcoin Plugin
------------------------
-Zen Cart truly is the art of e-commerce; free, user-friendly, open source shopping cart software.
-
-
-VirtueMart Bitcoin Plugin
--------------------------
-VirtueMart is an Open Source E-Commerce solution that powers large online shops.
-
-
 PrestaShop Bitcoin Plugin
 -------------------------
 PrestaShop comes complete with over 310 features that have been carefully developed to assist business owners.
@@ -78,11 +84,6 @@ Ubercart is the most popular Drupal E-Commerce platform.
 Drupal 6 Ubercart Bitcoin Plugin
 --------------------------------
 Ubercart is the most popular Drupal E-Commerce platform.
-
-
-osCommerce Bitcoin Plugin
--------------------------
-osCommerce has over 7,000 free Add-Ons and 12 Years of strong experince.
 
 
 X-Cart Bitcoin Plugin
