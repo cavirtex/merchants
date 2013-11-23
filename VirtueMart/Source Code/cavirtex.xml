@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<install version="1.5" type="plugin" group="vmpayment">
+    <name>CaVirtEx Bitcoin Plugin</name>
+    <creationDate>November 19 2013</creationDate>
+    <author>Aaron Kuchma</author>
+    <authorUrl>http://www.aaronkuchma.ca</authorUrl>
+    <copyright>Created for CaVirtEx ( www.cavirtex.com )</copyright>
+    <version>1.0</version>
+    <files>
+        <filename plugin="cavirtex">cavirtex.php</filename>
+    </files>
+    <params addpath="/administrator/components/com_virtuemart/elements">
+        <param type="vmjpluginwarning"/>
+        <param name="countries" type="vmcountries" scope="com_virtuemart" default="" label="VMPAYMENT_STANDARD_COUNTRIES" description="VMPAYMENT_STANDARD_COUNTRIES_DESC"/>
+        <param name="merchant_key" type="text" size="50" default="" label="CaVirtEx Merchant Key" description="CaVirtEx Merchant Key"/>
+		<param name="merchant_secret_key" type="text" size="50" default="" label="CaVirtEx Merchant Secret Key" description="CaVirtEx Merchant Secret Key"/>
+    </params>
+
+</install>

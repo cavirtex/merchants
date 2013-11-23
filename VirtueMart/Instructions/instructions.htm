@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Installation Instructions</title>
+    <style type="text/css">
+        .style1
+        {
+            width: 565px;
+            height: 208px;
+        }
+        .style2
+        {
+            width: 814px;
+            height: 298px;
+        }
+        .style3
+        {
+            width: 543px;
+            height: 268px;
+        }
+        .style4
+        {
+            width: 1046px;
+            height: 326px;
+        }
+        .style5
+        {
+            width: 594px;
+            height: 360px;
+        }
+        .style6
+        {
+            width: 237px;
+            height: 412px;
+        }
+        .style7
+        {
+            width: 1033px;
+            height: 153px;
+        }
+        .style8
+        {
+            width: 1068px;
+            height: 504px;
+        }
+        .style9
+        {
+            width: 1051px;
+            height: 324px;
+        }
+        .style10
+        {
+            width: 1052px;
+            height: 322px;
+        }
+        .style11
+        {
+            width: 810px;
+            height: 193px;
+        }
+    </style>
+</head>
+<body>
+
+    <p>
+        <img class="style1" src="Step%201-Extension%20Manager.png" /></p>
+    <p>
+        <strong>Step 1)</strong> In the Joomla Administration site, go to the &quot;<em>Extensions</em>&quot; 
+        menu item, and select &quot;<em>Extension Manager</em>&quot;.</p>
+    <p>
+        <img class="style2" src="Step%202-Select%20And%20Upload.png" /></p>
+    <p>
+        <strong>Step 2)</strong> Use the &quot;Browse&quot; button to locate the &quot;<em>CaVirtEx 
+        Payment Plugin.tar.gz</em>&quot; file on your computer, then click &quot;<em>Upload &amp; 
+        Install</em>&quot;.</p>
+    <p>
+        <img class="style3" src="Step%203-Plug-in%20Manager.png" /></p>
+    <p>
+        <strong>Step 3)</strong> Go to the &quot;<em>Extensions</em>&quot; menu item again, and 
+        this time select the &quot;<em>Plug-in Manager</em>&quot; menu item.</p>
+    <p>
+        <img class="style4" src="Step%204-Enable%20Plugin.png" /></p>
+    <p>
+        <strong>Step 4)</strong> Find the &quot;<em>CaVirtEx Bitcoin Plugin</em>&quot; in the 
+        list, then click on the red &quot;<em>Status</em>&quot; icon to enable the plug-in. Make 
+        sure to write down your plug-in&#39;s <em>&quot;ID&quot;</em> (from the last column).</p>
+    <p>
+        <img class="style5" src="Step%205-VirtueMart.png" /></p>
+    <p>
+        <strong>Step 5)</strong> Now go to the &quot;<em>Components</em>&quot; menu item, and 
+        click on the &quot;<em>VirtueMart</em>&quot; option.</p>
+    <p>
+        <img class="style6" src="Step%206-Payment%20Methods.png" /></p>
+    <p>
+        <strong>Step 6)</strong> Click on the &quot;<em>Shop</em>&quot; menu item, then click on &quot;<em>Payment 
+        Methods</em>&quot;.</p>
+    <p>
+        <img class="style7" src="Step%207-New.png" /></p>
+    <p>
+        <strong>Step 7)</strong> Click on the &quot;<em>New</em>&quot; button.</p>
+    <p>
+        <img class="style8" src="Step%208-Create%20Bitcoin%20Payment%20Method.png" /></p>
+    <p>
+        <strong>Step 8)</strong> Enter &quot;<em>Bitcoins</em>&quot; as the <em>Payment Name</em>, 
+        &quot;<em>Pay quickly and easily using BTC</em>.&quot; as the <em>Payment Description</em>, 
+        and select &quot;<em>CaVirtEx Bitcoin Plugin</em>&quot; as the <em>Payment Method</em>. 
+        Then, click &quot;<em>Save</em>&quot;.</p>
+    <p>
+        <img class="style9" src="Step%209-Configuration.png" /></p>
+    <p>
+        <strong>Step 9)</strong> Click on &quot;<em>Configuration</em>&quot;.</p>
+    <p>
+        <img class="style10" src="Step%2010-Merchant%20Keys.png" /></p>
+    <p>
+        <strong>Step 10)</strong> Enter the <em>Merchant Key</em> and <em>Secret Key</em> 
+        you&#39;ll find on the CaVirtEx website. Click on &quot;<em>Save &amp; Close</em>&quot;.</p>
+    <p>
+        <img class="style11" src="Step%2011-IPN.png" /></p>
+    <p>
+        <strong>Step 11)</strong> On the CaVirtEx site, click &quot;<em>Merchant Profile</em>&quot;. 
+        Find <em>IPN URL</em>, and enter the URL for your Joomla <em>index.php </em>file 
+        with the following query string:</p>
+    <p>
+        http://[your domain]/[your joomla folder, if any]/index.php?option=com_virtuemart&view=pluginresponse&task=pluginnotification&tmpl=component&pm=[your plug-in ID] </p>
+        <p>e.g. http://aaronk.ca/joomla/index.php?option=com_virtuemart&view=pluginresponse&task=pluginnotification&tmpl=component&pm=10032 </p>
+    <p style="font-weight: 700">
+        You can now accept payments with bitcoins!</p>
+</body>
+</html>
