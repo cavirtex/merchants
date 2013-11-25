@@ -47,6 +47,21 @@ osCommerce Bitcoin Plugin
 osCommerce has over 7,000 free Add-Ons and 12 Years of strong experince.
 https://github.com/cavirtex/merchants/tree/master/osCommerce
 
+Magento Bitcoin Plugin
+----------------------
+Magento is a feature-rich, professional open-source eCommerce solution.
+https://github.com/cavirtex/merchants/tree/master/Magento
+
+Drupal 7 Ubercart Bitcoin Plugin
+--------------------------------
+Ubercart is the most popular Drupal E-Commerce platform.
+https://github.com/cavirtex/merchants/tree/master/Ubercart_for_Drupal_7
+
+OpenCart Bitcoin Plugin
+-----------------------
+Opencart is a powerful open-source shopping cart platform for online merchants.
+https://github.com/cavirtex/merchants/tree/master/OpenCart
+
 
 Plugin Development In Progress
 ==============================
@@ -55,26 +70,13 @@ WHMCS Bitcoin Plugin
 --------------------
 WHMCS is an all-in-one client management, billing & support solution for online businesses.
 
-Magento Bitcoin Plugin
-----------------------
-Magento is a feature-rich, professional open-source eCommerce solution.
-
 WooCommerce Bitcoin Plugin
 --------------------------
 WooCommerce extends your WordPress website with e-commerce facilities.
 
-OpenCart Bitcoin Plugin
------------------------
-Opencart is a powerful open-source shopping cart platform for online merchants.
-
 PrestaShop Bitcoin Plugin
 -------------------------
 PrestaShop comes complete with over 310 features that have been carefully developed to assist business owners.
-
-Drupal 7 Ubercart Bitcoin Plugin
---------------------------------
-Ubercart is the most popular Drupal E-Commerce platform.
-
 
 
 Plugins Awaiting Submission ($500 Bounty Available)
