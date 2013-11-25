@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Bitcoin_VirtEx>
+			<!-- declare module's version information for database updates -->
+			<version>0.1.0</version>
+		</Bitcoin_VirtEx>
+	</modules>
+
+	<global>
+		<!-- IMPORTANT: if you use your own namespace (i.e. CompanyName) you also have to declare blocks group for new module. See topic: http://www.magentocommerce.com/boards/viewthread/22416/#t102732 -->
+		<blocks>
+			<virtex>
+				<class>Bitcoin_VirtEx_Block</class>
+			</virtex>
+		</blocks>
+
+		<!-- declare model group for new module -->
+		<models>
+		<!-- model group alias to be used in Mage::getModel('newmodule/...') -->
+			<virtex>
+				<!-- base class name for the model group -->
+				<class>Bitcoin_VirtEx_Model</class>
+			</virtex>
+		</models>
+
+		<!-- declare resource setup for new module -->
+		<resources>
+			<!-- resource identifier -->
+			<virtex_setup>
+				<!-- specify that this resource is a setup resource and used for upgrades -->
+				<setup>
+					<!-- which module to look for install/upgrade files in -->
+					<module>Bitcoin_VirtEx</module>
+				</setup>
+				<!-- specify database connection for this resource -->
+				<connection>
+					<!-- do not create new connection, use predefined core setup connection -->
+						<use>core_setup</use>
+				</connection>
+			</virtex_setup>
+			<virtex_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</virtex_write>
+			<virtex_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</virtex_read>
+		</resources>
+	</global>
+
+	<!-- declare default configuration values for this module -->
+	<default>
+		<!-- 'payment' configuration section (tab) -->
+		<payment>
+		<!-- 'newmodule' configuration group (fieldset) -->
+			<virtex>
+				<!-- by default this payment method is inactive -->
+				<active>0</active>
+				<!-- model to handle logic for this payment method -->
+				<model>virtex/payment</model>
+				<!-- order status for new orders paid by this payment method -->
+				<order_status>pending</order_status>
+				<!-- default title for payment checkout page and order view page -->
+				<title>Bitcoin (CaVirtEx.com)</title>
+
+				<payment_action>authorize</payment_action>
+				<allowspecific>0</allowspecific>
+			</virtex>
+		</payment>
+	</default>
+
+	<frontend>
+		<routers>
+			<virtex>
+				<use>standard</use>
+				<args>
+					<module>Bitcoin_VirtEx</module>
+					<frontName>virtex</frontName>
+				</args>
+			</virtex>
+		</routers>
+		<layout>
+			<updates>
+				<virtex>
+					<file>virtex.xml</file>
+				</virtex>
+			</updates>
+		</layout>
+	</frontend>
+</config>

@@ -1,0 +1,11 @@
+<p><?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?></p>
+<table>
+    <tbody>
+        <tr>
+            <td><?php echo nl2br($this->getInstructions()) ?></td>
+        </tr>
+				<tr>
+						<td><?php echo $this->getBitcoinAddress() ?></td>
+				</tr>
+    </tbody>
+</table>
