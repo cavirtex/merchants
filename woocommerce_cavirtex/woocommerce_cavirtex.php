@@ -38,7 +38,10 @@ function init_cavirtex_payment_gateway(){
 			$this->merchant_key    = $this->get_option( 'merchant_key' );
 			$this->merchant_secret = $this->get_option( 'merchant_secret' );
 			//$this->ipn_url = str_replace( 'https:', 'http:', add_query_arg( 'wc-api', 'WC_Gateway_Cavirtex', home_url( '/' ) ) );
-	
+			
+			// save admin options
+			add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
+			
 			// Payment listener/API hook
 			add_action( 'woocommerce_api_wc_gateway_' . $this->id, array( $this, 'process_ipn' ) );
 	    }
