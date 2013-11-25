@@ -1,0 +1,11 @@
+name = Canadian Virtual Exchange
+description = Enables Bitcoin payment processing using your Canadian Virtual Exchange merchant account.
+dependencies[] = uc_payment
+package = Ubercart - payment
+core = 7.x
+php = 5.0
+
+version = "7.x-3.5"
+core = "7.x"
+project = "uc_cavirtex"
+project status url = http://www.google.com

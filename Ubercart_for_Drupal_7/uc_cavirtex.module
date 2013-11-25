@@ -1,0 +1,132 @@
+<?php
+
+function uc_cavirtex_menu() {
+  $items['cart/cavirtex/complete'] = array(
+    'title' => 'Payment complete',
+    'page callback' => 'uc_cavirtex_complete',
+    'access callback' => 'uc_cavirtex_completion_access',
+    'type' => MENU_CALLBACK,
+    'file' => 'uc_cavirtex.pages.inc',
+  );
+  $items['cart/cavirtex/failed'] = array(
+    'title' => 'Payment failed',
+    'page callback' => 'uc_cavirtex_failed',
+    'access callback' => 'uc_cavirtex_completion_access',
+    'type' => MENU_CALLBACK,
+    'file' => 'uc_cavirtex.pages.inc',
+  );
+
+  return $items;
+}
+
+function uc_cavirtex_completion_access() {
+  return TRUE;
+}
+
+function uc_cavirtex_ucga_display() {
+  if (arg(0) == 'cart' && arg(1) == 'cavirtex' && arg(2) == 'complete') {
+    return TRUE;
+  }
+}
+
+function uc_cavirtex_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'uc_cart_checkout_review_form' && ($order_id = intval($_SESSION['cart_order'])) > 0) {
+    $order = uc_order_load($order_id);
+
+    if ($order->payment_method == 'cavirtex') {
+      unset($form['actions']['submit']);
+	  //debug($form);
+      $form['#prefix'] = '<table style="display: inline; padding-top: 1em;"><tr><td>';
+      $form['#suffix'] = '</td><td>'. render(drupal_get_form('uc_cavirtex_form', $order)) .'</td></tr></table>';
+    }
+  }
+}
+
+function uc_cavirtex_uc_payment_method() {
+  $path = base_path() . drupal_get_path('module', 'uc_cavirtex');
+  $title = variable_get('uc_cavirtex_method_title', t('Canadian Virtual Exchange'));
+  $methods[] = array(
+    'id' => 'cavirtex',
+    'name' => t('Canadian Virtual Exchange'),
+    'title' => $title,
+    'review' => "Canadian Virtual Exchange",
+    'desc' => t('Redirect to Canadian Virtual Exchange payment gate.'),
+    'callback' => 'uc_payment_method_cavirtex',
+    'weight' => 3,
+    'checkout' => TRUE,
+    'no_gateway' => TRUE,
+  );
+  return $methods;
+}
+
+function uc_payment_method_cavirtex($op, &$arg1) {
+  switch ($op) {
+    case 'cart-details':
+      return;
+
+    case 'cart-process':
+      return;
+
+    case 'settings':
+      $form['uc_cavirtex_merchant_key'] = array(
+        '#type' => 'textfield',
+        '#title' => t('VirtEx Merchant Key'),
+        '#description' => t('Your Canadian Virtual Exchange Merchant Key.  (Looks something like this: x3ehw82gudebhct7cjfxbynyhfd67ch)'),
+        '#default_value' => variable_get('uc_cavirtex_merchant_key', ''),
+        '#size' => 40,
+      );
+      $form['uc_cavirtex_method_title'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Payment method title'),
+        '#default_value' => variable_get('uc_cavirtex_method_title', t('Pay with Bitcoins via VirtEx')),
+      );
+      $form['uc_cavirtex_checkout_button'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Order review submit button text'),
+        '#description' => t('Provide specific text for the submit button on the order review page.'),
+        '#default_value' => variable_get('uc_cavirtex_checkout_button', t('Submit Order')),
+      );
+      return $form;
+  }
+}
+
+function uc_cavirtex_form($form_id, $form_state) {
+  $order = $form_state['build_info']['args'][0];
+  $country = uc_get_country_data(array('country_id' => $order->billing_country));
+  if ($country === FALSE) {
+    $country = array(0 => array('country_iso_code_3' => 'CAN'));
+  }
+  $context = array(
+    'revision' => 'formatted-original',
+    'location' => 'Canadian Virtual Exchange-form',
+  );
+  $options = array(
+    'sign' => FALSE,
+    'dec' => '.',
+    'thou' => FALSE,
+  );
+  $data = array(
+    'name' => t('Payment for Order #' .$order->order_id . ' at !site', array('!site' => variable_get('site_name', ''))),
+	'code' => $order->order_id,
+	'price' => $order->order_total,
+	'quantity' => '1',
+	'shipping' => '0',
+	'shipping_required' => 'False',
+	'cancel_url' => t(url('cart/cavirtex/failed', array('absolute' => TRUE)). '/index.php?PAYMENT_ID=' . $order->order_id . '&PAYMENT_BATCH_NUM=' . $order->order_id. '&PAYMENT_AMOUNT=' . $order->order_total ),
+	'return_url' => t(url('cart/cavirtex/complete', array('absolute' => TRUE)) . '/index.php?PAYMENT_ID=' . $order->order_id . '&PAYMENT_BATCH_NUM=' . $order->order_id. '&PAYMENT_AMOUNT=' . $order->order_total ),
+  );
+  
+  $form['#action'] = 'https://www.cavirtex.com/merchant_purchase/' . variable_get('uc_cavirtex_merchant_key', '');
+  $form['#method'] = 'POST';
+
+  foreach ($data as $name => $value) {
+    $form[$name] = array('#type' => 'hidden', '#value' => $value);
+  }
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => variable_get('uc_cavirtex_checkout_button', t('Submit Order')),
+  );
+
+  return $form;
+}
