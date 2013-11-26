@@ -1,0 +1,5 @@
+Order deny,allow
+Deny from all
+<Files virtex-logo.png>
+allow from all
+</Files>
