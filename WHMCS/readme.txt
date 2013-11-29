@@ -1,0 +1,1 @@
+To install the module you’ve created, simply upload it to the /modules/gateways/ folder and then go to Setup > Payment Gateways to activate. If you have create a callback file as well then that should also be uploaded but to the /modules/gateways/callback/ folder.
