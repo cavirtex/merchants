@@ -62,21 +62,35 @@ OpenCart Bitcoin Plugin
 Opencart is a powerful open-source shopping cart platform for online merchants.
 https://github.com/cavirtex/merchants/tree/master/OpenCart
 
-
-Plugin Development In Progress
-==============================
-
-WHMCS Bitcoin Plugin
---------------------
-WHMCS is an all-in-one client management, billing & support solution for online businesses.
+PrestaShop Bitcoin Plugin
+-------------------------
+PrestaShop comes complete with over 310 features that have been carefully developed to assist business owners.
+https://github.com/cavirtex/merchants/tree/master/Prestashop
 
 WooCommerce Bitcoin Plugin
 --------------------------
 WooCommerce extends your WordPress website with e-commerce facilities.
+https://github.com/cavirtex/merchants/tree/master/Wordpress%20Woocommerce
+OR
+https://github.com/cavirtex/merchants/tree/master/woocommerce_cavirtex
 
-PrestaShop Bitcoin Plugin
--------------------------
-PrestaShop comes complete with over 310 features that have been carefully developed to assist business owners.
+WP e-Commerce Bitcoin Plugin
+--------------------------
+https://github.com/cavirtex/merchants/tree/master/Wordpress%20e-commerce
+
+WHMCS Bitcoin Plugin
+--------------------
+WHMCS is an all-in-one client management, billing & support solution for online businesses.
+https://github.com/cavirtex/merchants/tree/master/WHMCS
+
+Commerce:SEO Bitcoin Plugin
+---------------------------
+Commerce:SEO is an advanced cart that is focused on tableless templates in HTML5 and CSS 3 and continues to support the efforts of PHP 5.4
+https://github.com/cavirtex/merchants/tree/master/saucal_commerceseo
+
+
+Plugin Development In Progress
+==============================
 
 
 Plugins Awaiting Submission ($500 Bounty Available)
@@ -86,13 +100,10 @@ Drupal 6 Ubercart Bitcoin Plugin
 --------------------------------
 Ubercart is the most popular Drupal E-Commerce platform.
 
-
 X-Cart Bitcoin Plugin
 ---------------------
 X-Cart allows you to: Sell Online. Anything. Anywhere.
 
 
-Commerce:SEO Bitcoin Plugin
----------------------------
-Commerce:SEO is an advanced cart that is focused on tableless templates in HTML5 and CSS 3 and continues to support the efforts of PHP 5.4
+
 
