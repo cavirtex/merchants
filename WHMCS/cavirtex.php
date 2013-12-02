@@ -50,6 +50,7 @@ function cavirtex_handle_post($params) {
 
 	// Gateway Specific Variables
 	$merchantkey = $params['merchantkey'];
+	$secretkey = $params['secretkey'];
 
 	// Invoice Variables
 	$invoiceid = $params['invoiceid'];
@@ -76,17 +77,21 @@ function cavirtex_handle_post($params) {
 		return "Currency must be in CAD.";
 	}
 
+	$customData = array("whmcsid" => $invoiceid, "amount" => $amount);
+
 	$purchase = cavirtex_merchant_purchase($merchantkey, $description, $amount, $email, "$firstname $lastname",
-		$address1, $address2, $city, $state, $postcode, $country, $returnurl);
+		$address1, $address2, $city, $state, $postcode, $country, $returnurl, $customData, $secretkey);
 
 	// Checks if the cURL call failed
 	if($purchase === false) {
 		return "API error.";
 	}
 	
+	/*
 	// Links the VirtEx order_key with our internal WHMCS invoice ID
 	insert_query("tblcavirtex", array("whmcsid" => $invoiceid, "orderkey" => $purchase->order_key,
 		"btc" => $purchase->btc_total, "expires" => $purchase->time_left + time()));
+	*/
 
 	// Redirects the user to the payment page
 	header("Location: https://www.cavirtex.com/merchant_invoice?merchant_key=".urlencode($merchantkey).
@@ -96,7 +101,9 @@ function cavirtex_handle_post($params) {
 
 // PHP JSON endpoint for the merchant_purchase API
 function cavirtex_merchant_purchase($merchantKey, $name, $price, $email, $customerName, $addr1, $addr2,
-	$city, $prov, $post, $country, $returnUrl) {
+	$city, $prov, $post, $country, $returnUrl, $customData, $secretKey) {
+	$customData = json_encode($customData); // Will end up being JSON within JSON
+	$customData = array("data" => $customData, "hmac" => hash_hmac("sha256", $customData, $secretKey));
 	$post = array(
 		"name" => $name,
 		"price" => $price,
@@ -110,8 +117,10 @@ function cavirtex_merchant_purchase($merchantKey, $name, $price, $email, $custom
 		"province" => cavirtex_abbreviate_province($prov),
 		"postal" => $post,
 		"country" => $country,
-		"format" => "json"
+		"format" => "json",
+		"custom_1" => json_encode($customData)
 	);
+	
 	if(!empty($addr2)) {
 		$post["address2"] = $addr2;
 	}
