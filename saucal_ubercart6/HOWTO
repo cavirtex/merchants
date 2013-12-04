@@ -1,0 +1,19 @@
+HOW-TO: INSTRUCTIONS FOR USING UC_Virtex
+
+This module is designed for use with version 6.x of Drupal, and version 2.x of Ubercart. It will allow your e-commerce website to accept payment in Bitcoin, have the funds converted to your local currency, and then receive an ACH transfer to your bank account.
+
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+To use this module:
+
+(1) Ensure you have the proper versions of Drupal (6.x) and Ubercart (2.x).
+
+(2) Sign up for a merchant account with Virtex, at https://cavirtex.com. Be sure to read all provided information thoroughly, and to understand the fees that will be charged.
+
+(3) On your Virtex merchant page, provide deposit information. This can be information for your bank account, or a forwarding bitcoin address, or some mixture thereof (you can set the funds to be converted to different currencies in differing proportions.) You should also create at least one API key.
+
+(4) Place the folder 'uc_virtex' into the proper location on your server; it needs to be placed with your other modules. If in doubt, find the 'ubercart' module folder (likely in the 'modules' directory), and copy the 'uc_virtex' folder to that same directory (again, likely 'modules'.)
+
+(5) Enable the module. As an administrator on your website, view the 'Modules' section of 'Site Building'. The module will be found under 'Ubercart - payment'. Check 'Virtex' and save the configuration.
+
+(6) Enable Virtex as a payment method, and save the configuration. You're now ready to start accepting bitcoins as payment!
