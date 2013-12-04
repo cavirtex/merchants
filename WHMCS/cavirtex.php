@@ -86,12 +86,6 @@ function cavirtex_handle_post($params) {
 	if($purchase === false) {
 		return "API error.";
 	}
-	
-	/*
-	// Links the VirtEx order_key with our internal WHMCS invoice ID
-	insert_query("tblcavirtex", array("whmcsid" => $invoiceid, "orderkey" => $purchase->order_key,
-		"btc" => $purchase->btc_total, "expires" => $purchase->time_left + time()));
-	*/
 
 	// Redirects the user to the payment page
 	header("Location: https://www.cavirtex.com/merchant_invoice?merchant_key=".urlencode($merchantkey).
