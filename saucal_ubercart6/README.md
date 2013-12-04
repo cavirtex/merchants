@@ -18,7 +18,7 @@ Configuration
 
 + On your Virtex merchant page, provide deposit information. This can be information for your bank account, or a forwarding bitcoin address, or some mixture thereof (you can set the funds to be converted to different currencies in differing proportions.)
 
-+ Create an API key at https://cavirtex.com by clicking My Account > API Access Keys > Add New API Key.
++ Create an API key at https://cavirtex.com by clicking Merchant > Merchant Profile > Merchant Key.
 
 + Under Administer > Site Building > Modules, verify that the Virtex module is enabled under the Ubercart - payment section.
 
