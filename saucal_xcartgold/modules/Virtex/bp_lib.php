@@ -112,14 +112,18 @@ function bpVerifyNotification($apiKey = false) {
 // $options can include ('apiKey')
 function bpGetInvoice($invoiceId, $apiKey=false) {
 	global $bpOptions;
-	if (!$apiKey)
-		$apiKey = $bpOptions['apiKey'];		
-
-	$response = bpCurl('https://virtex.com/api/invoice/'.$invoiceId, $apiKey);
-	if (is_string($response))
-		return $response; // error
+	if (!$apiKey) $apiKey = $bpOptions['apiKey'];		
+	
+	$request = $bpOptions['apiURL'].'merchant_invoice?merchant_key='.$apiKey.'&order_key='.$invoiceId;
+	bpLog($request);
+	$response = bpCurl($request);
+	bpLog($response);
+	
+	if (is_string($response)) return $response; // error
+	
 	$response['posData'] = json_decode($response['posData'], true);
 	$response['posData'] = $response['posData']['posData'];
-
+	
+	
 	return $response;	
 }

@@ -19,7 +19,7 @@ Installation
 
 Configuration
 -------------
-1. Create an API key at cavirtex.com by clicking My Account > API Access Keys > Add New API Key.
+1. Create an API key at https://cavirtex.com by clicking Merchant > Merchant Profile > Merchant Key.
 2. In your XCart admin panel, go to Settings > Payment Methods > Payment Gateways.
 3. Change Your Country to All Countries, select Virtex and click Add.
 4. Click Payment Methods tab, check the box next to Virtex and click Apply Changes.
