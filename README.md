@@ -88,22 +88,13 @@ Commerce:SEO Bitcoin Plugin
 Commerce:SEO is an advanced cart that is focused on tableless templates in HTML5 and CSS 3 and continues to support the efforts of PHP 5.4
 https://github.com/cavirtex/merchants/tree/master/saucal_commerceseo
 
-
-Plugin Development In Progress
-==============================
-
-
-Plugins Awaiting Submission ($500 Bounty Available)
-===================================================
-
 Drupal 6 Ubercart Bitcoin Plugin
 --------------------------------
 Ubercart is the most popular Drupal E-Commerce platform.
+https://github.com/cavirtex/merchants/tree/master/saucal_ubercart6
 
 X-Cart Bitcoin Plugin
 ---------------------
 X-Cart allows you to: Sell Online. Anything. Anywhere.
-
-
-
+https://github.com/cavirtex/merchants/tree/master/saucal_xcartgold
 
