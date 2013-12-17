@@ -1,0 +1,2 @@
+INSERT INTO `xcart_ccprocessors` (`module_name`, `type`, `processor`, `template`, `param01`, `param02`, `param03`, `param04`, `param05`, `param06`, `param07`, `param08`, `param09`, `disable_ccinfo`, `background`, `testmode`, `is_check`, `is_refund`, `c_template`, `paymentid`, `cmpi`, `use_preauth`, `preauth_expire`, `has_preauth`, `capture_min_limit`, `capture_max_limit`) VALUES ('Virtex', 'P', 'ps_virtex.php', 'ps_virtex.tpl', '', '', '', '', '', '', '', '', '', 'Y', 'N', 'N', '', '', '', '0', '', '', '0', '', '0%', '0%');
+
