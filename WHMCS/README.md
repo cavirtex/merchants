@@ -2,18 +2,19 @@
 Written by [Kevin Mark][kmark] <<kevin@versobit.com>>
 
 This module is a simple and secure payment gateway for those wanting to offer payment in
-Bitcoin through VirtEx from within WHMCS. Its basic operation is outlined as follows:
+Bitcoin through VirtEx from within WHMCS. Minimum PHP version is 5.2.0. Its basic operation is outlined as follows:
 
 1. User clicks "Pay with Bitcoin"
 2. Module calls the `merchant_purchase` API.
-3. VirtEx `order_key` is stored within a custom table, which links our internal WHMCS invoice ID with VirtEx's invoice.
-4. User is redirected to VirtEx's `merchant_invoice` page, which displays payment processing information and directions in a very understandable format.
-5. User completes the payment by sending the full Bitcoin value to a specified address.
-6. VirtEx receives this payment and notifies WHMCS via the merchant's IPN URL.
-7. Module checks for the `order_key` in the database and matches it with the corresponding WHMCS invoice.
+3. User is redirected to VirtEx's `merchant_invoice` page, which displays payment processing information and directions in a very understandable format.
+4. User completes the payment by sending the full Bitcoin value to a specified address.
+5. VirtEx receives this payment and notifies WHMCS via the merchant's IPN URL.
+6. Module verifies custom data by comparing the HMAC-SHA256 results. Merchant Secret is used as the key.
+7. Module uses custom data to find the corresponding WHMCS invoice in the database.
 8. Module checks with VirtEx's `merchant_confirm_ipn` API to confirm the IPN data.
 9. Module marks the invoice as "paid" and logs the transaction.
 
+Theoretically the module can accept multiple VirtEx transactions to fulfill a single WHMCS invoice but this is untested.
 
 ## Installation
 
@@ -25,35 +26,18 @@ this includes manually executing a `CREATE TABLE` MySQL query.
 
 2. Replace the `GoDaddyClass2CA.crt` in the `whmcs/modules/gateways/cavirtex` directory with GoDaddy's Class 2 Root CA certificate in PEM format. This is optional if you **a)** trust me **b)** trust where you obtained this code from **c)** and it's before the certificate's expiry on June 29, 2034 at 5:06:20 PM UTC. So yeah, it's optional.
 
-3. Run [the below SQL query][MySQLInstallationQuery] on your WHMCS database. This can be easily done from phpMyAdmin. You can find a link to phpMyAdmin on your account's cPanel if applicable.
+3. Go to your WHMCS admin panel and then navigate to `Setup -> Payments -> Payment Gateways`.
 
-4. Go to your WHMCS admin panel and then navigate to `Setup -> Payments -> Payment Gateways`.
+4. Select VirtEx from the Activate Module dropdown and click the Activate button.
 
-5. Select VirtEx from the Activate Module dropdown and click the Activate button.
+5. Enter your Merchant Key and Secret Key, both of which can be found on your [Merchant Information][MerchantInformation] page.
 
-6. Enter your Merchant Key and Secret Key, both of which can be found on your [Merchant Information][MerchantInformation] page.
+6. Copy and paste your given IPN URL into the proper text box on your [Merchant Information][MerchantInformation] page and submit that form. If you paste that link in to your browser and it returns a blank page (but not a 404!) then the automatically generated IPN URL is probably correct. It should look something like the following: `http://example.com/yourwhmcsdirectory/modules/gateways/callback/cavirtex.php`
 
-7. Copy and paste your given IPN URL into the proper text box on your [Merchant Information][MerchantInformation] page and submit that form. If you paste that link in to your browser and it returns a blank page (but not a 404!) then the automatically generated IPN URL is probably correct. It should look something like the following: `http://example.com/yourwhmcsdirectory/modules/gateways/callback/cavirtex.php`
+7. Select CAD in the "Convert To For Processing" box. If you don't see CAD, you should set up that currency in `Setup -> Payments -> Currencies`. Exactly how to do that resides outside the scope of this installation tutorial.
 
-8. Select CAD in the "Convert To For Processing" box. If you don't see CAD, you should set up that currency in `Setup -> Payments -> Currencies`. Exactly how to do that resides outside the scope of this installation tutorial.
-
-9. Click the Save Changes button. Installation is complete. You can now use VirtEx just like any other WHMCS payment module.
-
-## MySQL Installation Query
-
-You only need to run this once during the initial setup of the VirtEx module.
-
-    CREATE TABLE IF NOT EXISTS `tblcavirtex` (
-      `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-      `whmcsid` int(10) NOT NULL,
-      `orderkey` varchar(50) NOT NULL,
-      `btc` varchar(20) NOT NULL,
-      `expires` int(10) unsigned NOT NULL,
-      PRIMARY KEY (`id`),
-      UNIQUE KEY `orderkey` (`orderkey`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+8. Click the Save Changes button. Installation is complete. You can now use VirtEx just like any other WHMCS payment module.
 
 
 [kmark]: http://github.com/kmark
 [MerchantInformation]: https://www.cavirtex.com/merchant_information
-[MySQLInstallationQuery]: #mysql-installation-query
