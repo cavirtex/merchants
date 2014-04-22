@@ -1,0 +1,71 @@
+<?php $btc_data = Mage::getSingleton('core/session')->getBitcoinData(); ?>
+
+<?php //var_dump($btc_data);
+if( empty( $btc_data['btc_address'] ) ) : ?>
+
+<div class="block-content">
+	<div class="error-msg">Sorry, Bitcoin payment is currently unavailable. Please try again in a few hours or contact us.</div>
+</div>
+
+<?php else: ?>
+<div class="block-content">
+	<div class="page-title category-title"><h1>Invoice Created - Complete your Order</h1></div>
+    <div class="fieldset">
+        <p class="virtex_success_inst">To complete your order please send <strong><?php echo $btc_data["btc_total"] ?> BTC
+    (<?php echo $btc_data["cad_total"] ?> CAD)</strong> to
+            the following Bitcoin Address:</p>
+        <p class="virtex_success_add"><strong><?php echo $btc_data["btc_address"] ?></strong></p>
+        <p class="virtex_success_qradd"><?php echo "<img src=\"http://chart.googleapis.com/chart?". "chs=250x250&cht=qr&chl=bitcoin:".$btc_data["btc_address"]."?amount=".$btc_data["btc_total"]."\" />"; ?></p>
+        <p class="virtex_success_info">Note: The current Bitcoin exchange rate is <strong><?php echo $btc_data["exchange_rate"] ?> CAD/BTC</strong>.
+            As Bitcoin exchange rates are subject to heavy fluctuations, your order will be valid only for the next
+            15 minutes.</p>
+        <p id="virtex_timer"></p>
+        <p id="virtex_timer2"></p>
+        <script type="text/javascript">
+            var countdown = document.getElementById("virtex_timer");
+            var seconds_left = <?php echo intval($btc_data['time_left']); ?>, show_m, show_s;
+			var btc_total = <?php echo intval($btc_data['btc_total']); ?>;
+            var show_timer = setInterval(function () {
+                seconds_left--;
+                countdown.innerHTML = "<div class='notice-msg'><strong>Time Left:</strong> <span>" + parseInt(seconds_left / 60) + " minutes, " + parseInt(seconds_left % 60) + " seconds</span></div>"; //
+                if(seconds_left == 0) {
+					clearInterval(show_timer);
+					clearInterval(show_details);
+					countdown.innerHTML = "<div class='notice-msg'><strong>Time Expired</strong>. You will receive an email once our system confirms the payment.</div>";
+				}
+            }, 1000);
+			loadXMLDoc();
+			var show_details = setInterval(loadXMLDoc, 15000);
+			function loadXMLDoc() {
+				var xmlhttp;
+				xmlhttp=new XMLHttpRequest();
+				xmlhttp.onreadystatechange=function() {
+				  if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+					var timerres = JSON.parse(xmlhttp.responseText);
+					if( timerres['status'] && ( timerres['status'] == 'paid' || timerres['status'] == 'credited' || timerres['status'] == 'confirmed' ) ) {
+						clearInterval(show_timer);
+						clearInterval(show_details);
+						document.getElementById("virtex_timer").innerHTML = "<div class='success-msg'>Payment received. Please check your email for the generated invoice.</div>";
+						document.getElementById("virtex_timer2").innerHTML='';
+					}
+					
+					if( timerres['status_nice'] ) {
+						var compinner = "<div class='notice-msg'><strong>Current Status:</strong> ";
+						compinner += timerres['status_nice'];
+						if( timerres['total_received'] ) {
+							compinner += "<br /><strong>Total Paid:</strong> ";
+							compinner += timerres['total_received'];
+						}
+						compinner += "</div>";
+						document.getElementById("virtex_timer2").innerHTML=compinner;
+					}
+				  }
+				}
+				xmlhttp.open("GET","<?php echo Mage::getUrl('virtex/payment/ajax').'?order_key='.$btc_data['order_key']; ?>",true);
+				xmlhttp.send();
+			}
+        </script>
+    </div>
+</div>
+
+<?php endif; ?>
