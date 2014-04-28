@@ -1,0 +1,14 @@
+
+
+<?php $getformcontent = $this->getFormDescription();
+if ( !empty( $getformcontent ) ) : ?>
+<ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
+	<li>
+		<div class="<?php echo $this->getMethodCode() ?>-instructions-content">
+			<?php foreach( $getformcontent as $formcontent ) {
+				echo '<p>'.$formcontent.'</p>';
+			} ?>
+		</div>
+	</li>
+</ul>
+<?php endif; ?>
