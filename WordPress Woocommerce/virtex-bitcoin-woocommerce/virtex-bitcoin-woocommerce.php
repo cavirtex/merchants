@@ -154,7 +154,7 @@ function declareWooVirtexpay() {
 			$params = array(
 				'name'     => $this->bill_as, //@todo $order->get_items add names
 				'code'     => $order->id,
-				'price'    => $order->get_total() /*- $order->get_shipping() /* - $order->get_total_tax() */,
+				'price'    => $order->get_total() - $order->get_shipping() - $order->get_total_tax(),
 				'shipping_required' => 0, // Let Woo handle shipping // $order->get_shipping() > 0 ? 1 : 0,
 				'cancel_url'        => $order->get_cancel_order_url(),
 				'return_url'        => get_permalink( woocommerce_get_page_id( 'myaccount' ) ),
@@ -164,6 +164,14 @@ function declareWooVirtexpay() {
 				'custom_1' => json_encode( array('hash' => crypt( $this->merchant_secret, $this->merchant_key) ) ),
 			);
 			
+			if($order->get_shipping() > 0){
+				$params["shipping"] = $order->get_shipping();
+			}
+
+			if($order->get_total_tax() > 0){
+				$params["tax"] = $order->get_total_tax();
+			}
+
 			return $params;
 		}
 
